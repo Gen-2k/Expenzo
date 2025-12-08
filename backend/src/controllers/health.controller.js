@@ -1,6 +1,7 @@
+// Checks if the server is running.
 export const healthCheck = (req, res) => {
   res.status(200).json({
-    satus: 'OK',
+    status: 'OK',
     message: 'Server is running',
     timestamp: new Date(),
   });

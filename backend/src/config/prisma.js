@@ -1,3 +1,4 @@
+// Initialize and export the Prisma client for database interactions.
 import pkg from '@prisma/client';
 const { PrismaClient } = pkg;
 
