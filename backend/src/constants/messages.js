@@ -12,4 +12,9 @@ export const MESSAGES = {
     UNAUTHORIZED: 'Unauthorized access',
     INVALID_TOKEN: 'Invalid or expired token',
   },
+  EXPENSES: {
+    CREATED: 'Expense created successfully',
+    NOT_FOUND: 'Expense not found or access denied',
+    DELETED: 'Expense deleted successfully',
+  },
 };

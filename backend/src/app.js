@@ -1,8 +1,9 @@
 import express from 'express';
 import cors from 'cors';
+import errorMiddleware from './middlewares/error.middleware.js';
 import healthRoutes from './routes/health.routes.js';
 import authRoutes from './routes/auth.routes.js';
-import errorMiddleware from './middlewares/error.middleware.js';
+import expenseRoutes from './routes/expense.routes.js';
 
 const app = express();
 
@@ -10,8 +11,9 @@ app.use(cors()); // Enable Cross-Origin Resource Sharing
 app.use(express.json()); // Enable JSON body parsing
 
 // API Routes
-app.use('/api', healthRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/health', healthRoutes); // Health check usually sits at root or /health
+app.use('/auth', authRoutes);
+app.use('/expenses', expenseRoutes);
 
 // Global Error Handler (must be the last middleware)
 app.use(errorMiddleware);

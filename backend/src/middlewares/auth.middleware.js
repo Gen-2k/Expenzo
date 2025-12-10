@@ -16,6 +16,7 @@ export const authMiddleware = (req, res, next) => {
     }
 
     const decode = verifyToken(token);
+    // console.log('Decoded Token:', decode.userId);
     req.userId = decode.userId;
     next();
   } catch (err) {
