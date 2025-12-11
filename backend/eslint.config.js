@@ -1,9 +1,11 @@
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import importPlugin from 'eslint-plugin-import';
 
 export default [
   {
+    files: ["**/*.js"],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -12,19 +14,30 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
     },
+    plugins: {
+      import: importPlugin,
+    },
+    settings: {
+      "import/resolver": {
+        node: {
+          extensions: [".js", ".jsx"],
+        },
+      },
+    },
   },
   pluginJs.configs.recommended,
-  eslintConfigPrettier, // Disables ESLint rules that might conflict with Prettier
+  eslintConfigPrettier,
   {
     rules: {
-      // Custom overrides to be professional but not overly restrictive
+      ...importPlugin.configs.recommended.rules,
+      "import/named": "error",
       'no-unused-vars': [
         'warn',
         {
           argsIgnorePattern: '^_',
         },
-      ], // Warns instead of errors, ignores vars starting with _
-      'no-console': 'warn', // Warns on console.log so you remember to remove them, but doesn't break build
+      ],
+      'no-console': 'warn',
     },
   },
 ];

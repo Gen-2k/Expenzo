@@ -1,9 +1,9 @@
 import { Router } from "express";
 import {
   createExpenseController,
-getUserExpensesController,
-    updateExpenseController,
-    deleteExpenseController
+  getExpensesController,
+  updateExpenseController,
+  deleteExpenseController,
 } from "../controllers/expense.controller.js";
 import { authMiddleware } from "../middlewares/auth.middleware.js"; 
 
@@ -15,8 +15,9 @@ router.use(authMiddleware);
 // Route to create a new expense (protected).
 router.post("/", createExpenseController);
 
+
 // Route to get all expenses for the authenticated user (protected).
-router.get("/", getUserExpensesController);
+router.get("/", getExpensesController);
 
 // Route to update an expense by ID (protected).
 router.put("/:id", updateExpenseController);
