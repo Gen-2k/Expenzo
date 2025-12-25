@@ -7,11 +7,11 @@ import expenseRoutes from './routes/expense.routes.js';
 
 const app = express();
 
-app.use(cors()); // Enable Cross-Origin Resource Sharing
-app.use(express.json()); // Enable JSON body parsing
+app.use(cors());
+app.use(express.json());
 
 // API Routes
-app.use('/health', healthRoutes); // Health check usually sits at root or /health
+app.use('/health', healthRoutes);
 app.use('/auth', authRoutes);
 app.use('/expenses', expenseRoutes);
 
