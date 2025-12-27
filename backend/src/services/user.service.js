@@ -4,6 +4,11 @@ import AppError from '../utils/AppError.js';
 import { generateToken } from '../utils/token.js';
 import { MESSAGES } from '../constants/messages.js';
 
+// Finds a user by their ID.
+export const findUserById = async (id) => {
+  return prisma.user.findUnique({ where: { id } });
+};
+
 // Finds a user by their email address.
 export const findUserByEmail = async (email) => {
   return prisma.user.findUnique({

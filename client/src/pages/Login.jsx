@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { LogIn, Mail, Lock } from 'lucide-react';
@@ -17,7 +17,7 @@ const Login = () => {
     try {
       await login(email, password);
       // Navigation is handled in AuthContext upon success
-    } catch (error) {
+    } catch {
       // Error is handled in AuthContext (toast notification)
       setIsSubmitting(false);
     }

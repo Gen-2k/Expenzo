@@ -1,9 +1,10 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import toast from 'react-hot-toast';
 
-const AuthContext = createContext(null);
+/* eslint-disable react-refresh/only-export-components */
+export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -15,7 +16,17 @@ export const AuthProvider = ({ children }) => {
     const checkAuthStatus = async () => {
       const token = localStorage.getItem('token');
       if (token) {
-        setIsAuthenticated(true);
+        try {
+          const response = await api.get('/auth/me');
+          console.log('Fetched user data:', response.data);
+          setUser(response.data.user);
+          setIsAuthenticated(true);
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+          localStorage.removeItem('token');
+          setIsAuthenticated(false);
+          setUser(null);
+        }
       }
       setLoading(false);
     };

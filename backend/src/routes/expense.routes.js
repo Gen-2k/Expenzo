@@ -1,11 +1,11 @@
-import { Router } from "express";
+import { Router } from 'express';
 import {
   createExpenseController,
   getExpensesController,
   updateExpenseController,
   deleteExpenseController,
-} from "../controllers/expense.controller.js";
-import { authMiddleware } from "../middlewares/auth.middleware.js"; 
+} from '../controllers/expense.controller.js';
+import { authMiddleware } from '../middlewares/auth.middleware.js';
 
 const router = Router();
 
@@ -13,16 +13,15 @@ const router = Router();
 router.use(authMiddleware);
 
 // Route to create a new expense (protected).
-router.post("/", createExpenseController);
-
+router.post('/', createExpenseController);
 
 // Route to get all expenses for the authenticated user (protected).
-router.get("/", getExpensesController);
+router.get('/', getExpensesController);
 
 // Route to update an expense by ID (protected).
-router.put("/:id", updateExpenseController);
+router.put('/:id', updateExpenseController);
 
 // Route to delete an expense by ID (protected).
-router.delete("/:id", deleteExpenseController);
+router.delete('/:id', deleteExpenseController);
 
 export default router;

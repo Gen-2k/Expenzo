@@ -1,4 +1,8 @@
-import { createUser, loginUser } from '../services/user.service.js';
+import {
+  createUser,
+  loginUser,
+  findUserById,
+} from '../services/user.service.js';
 import AppError from '../utils/AppError.js';
 import { MESSAGES } from '../constants/messages.js';
 
@@ -24,6 +28,26 @@ export const registerController = async (req, res) => {
   });
 };
 
+// Handles fetching the authenticated user's details.
+
+export const getMeController = async (req, res) => {
+  const user = await findUserById(req.userId);
+  if (!user) {
+    throw new AppError(MESSAGES.AUTH.USER_NOT_FOUND, 404);
+  }
+  res.status(200).json({
+    status: 'success',
+    message: MESSAGES.AUTH.USER_FETCHED,
+    data: {
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    },
+  });
+};
+
 // Handles user login.
 export const loginController = async (req, res) => {
   const { email, password } = req.body;
@@ -32,11 +56,14 @@ export const loginController = async (req, res) => {
     throw new AppError(MESSAGES.AUTH.EMAIL_PASSWORD_REQUIRED, 400);
   }
 
-  const { token } = await loginUser(email, password);
+  const { token, user } = await loginUser(email, password);
 
   res.status(200).json({
     status: 'success',
     message: MESSAGES.AUTH.LOGIN_SUCCESS,
-    token: token,
+    data: {
+      user: { id: user.id, name: user.name, email: user.email },
+      token: token,
+    },
   });
 };

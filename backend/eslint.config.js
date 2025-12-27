@@ -5,7 +5,7 @@ import importPlugin from 'eslint-plugin-import';
 
 export default [
   {
-    files: ["**/*.js"],
+    files: ['**/*.js'],
     languageOptions: {
       globals: {
         ...globals.node,
@@ -18,9 +18,9 @@ export default [
       import: importPlugin,
     },
     settings: {
-      "import/resolver": {
+      'import/resolver': {
         node: {
-          extensions: [".js", ".jsx"],
+          extensions: ['.js', '.jsx'],
         },
       },
     },
@@ -30,14 +30,14 @@ export default [
   {
     rules: {
       ...importPlugin.configs.recommended.rules,
-      "import/named": "error",
+      'import/named': 'error',
       'no-unused-vars': [
         'warn',
         {
           argsIgnorePattern: '^_',
         },
       ],
-      'no-console': 'warn',
+      'no-console': ['warn', { allow: ['warn', 'error'] }],
     },
   },
 ];

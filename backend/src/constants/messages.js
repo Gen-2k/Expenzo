@@ -11,6 +11,8 @@ export const MESSAGES = {
     NO_TOKEN: 'No token provided',
     UNAUTHORIZED: 'Unauthorized access',
     INVALID_TOKEN: 'Invalid or expired token',
+    USER_NOT_FOUND: 'User not found',
+    USER_FETCHED: 'User fetched successfully',
   },
   EXPENSES: {
     CREATED: 'Expense created successfully',

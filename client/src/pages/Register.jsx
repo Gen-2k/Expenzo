@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
-import api from '../services/api'; // Import api directly for registration
+import api from '../services/api';
 import toast from 'react-hot-toast';
 
 const Register = () => {
