@@ -7,10 +7,13 @@ import {
   Calendar,
   ArrowUpRight,
   MoreVertical,
-  DollarSign
+  DollarSign,
+  Sparkles,
 } from 'lucide-react';
 import api from '../services/api';
 import Layout from '../components/Layout';
+import DashboardChart from '../components/DashboardChart';
+import CategoryBreakdown from '../components/CategoryBreakdown';
 
 const Dashboard = () => {
   // --- State & Hooks ---
@@ -56,207 +59,184 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      {/* --- SECTION 1: HEADER --- */}
-      <div className="mb-8">
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-          Hello, {user?.name?.split(' ')[0] || 'User'}! 👋
-        </h1>
-        <p className="text-gray-500 mt-1">
-          Here's your financial overview.
-        </p>
+      {/* 1. Header Section */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">
+            Welcome back, {user?.name?.split(' ')[0] || 'User'}! 
+          </h1>
+          <p className="text-gray-500 font-medium">Here's your financial intelligence overview.</p>
+        </div>
+        <div className="hidden md:flex p-1 bg-white border border-gray-100 rounded-2xl shadow-sm">
+          <button className="px-5 py-2.5 text-sm font-bold bg-primary-600 text-white rounded-xl shadow-lg shadow-primary-600/20">Overview</button>
+          <button className="px-5 py-2.5 text-sm font-bold text-gray-400 hover:text-gray-600">Reports</button>
+        </div>
       </div>
 
-      {/* --- SECTION 2: STATS CARDS GRID --- */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      {/* 2. Main Dashboard Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        {/* Card 1: Total Balance (Primary Gradient) */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-primary-600 to-primary-800 rounded-3xl p-6 text-white shadow-xl shadow-primary-600/20">
-          <div className="absolute top-0 right-0 -mr-8 -mt-8 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 -ml-8 -mb-8 w-32 h-32 bg-indigo-500/30 rounded-full blur-2xl"></div>
-
-          <div className="relative z-10">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-md shadow-inner border border-white/10">
-                <Wallet className="w-5 h-5 text-white" />
+        {/* LEFT COLUMN: Main Stats & Activity (65-70%) */}
+        <div className="lg:col-span-8 space-y-8">
+          
+          {/* Primary Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Total Balance Card */}
+            <div className="relative overflow-hidden bg-gradient-to-br from-primary-600 to-primary-800 rounded-[2.5rem] p-8 text-white shadow-2xl shadow-primary-600/20 group">
+              <div className="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-white/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-700"></div>
+              <div className="relative z-10 flex flex-col h-full justify-between">
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-xl border border-white/10">
+                      <Wallet className="w-5 h-5 text-white" />
+                    </div>
+                    <span className="font-bold text-primary-50 tracking-wide">Total Balance</span>
+                  </div>
+                  <div className="text-4xl md:text-5xl font-bold tracking-tight mb-2">
+                    ₹{totalBalance.toLocaleString()}
+                  </div>
+                </div>
+                <div className="mt-8 flex items-center gap-2">
+                  <span className={`px-4 py-1.5 rounded-full text-xs font-bold backdrop-blur-md border ${
+                    totalBalance >= 0 ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/20' : 'bg-rose-500/20 text-rose-300 border-rose-500/20'
+                  }`}>
+                    {totalBalance >= 0 ? '● Positive Growth' : '● Overdrawn'}
+                  </span>
+                </div>
               </div>
-              <span className="font-medium text-primary-50 tracking-wide opacity-90">
-                Total Balance
-              </span>
             </div>
 
-            <div className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">
-              ₹{totalBalance.toLocaleString()}
-            </div>
-
-            <div className="flex items-center gap-2 text-sm font-medium text-primary-50 bg-white/10 w-fit px-3 py-1.5 rounded-full backdrop-blur-md border border-white/5">
-              <span>{totalBalance >= 0 ? 'Healthy' : 'Overdrawn'}</span>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 2: Total Income (Emerald Gradient) */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-emerald-500 to-emerald-700 rounded-3xl p-6 text-white shadow-xl shadow-emerald-500/20">
-           <div className="absolute top-0 right-0 -mr-8 -mt-8 w-40 h-40 bg-white/10 rounded-full blur-3xl"></div>
-           
-           <div className="relative z-10">
-             <div className="flex items-center gap-3 mb-4">
-               <div className="p-2.5 bg-white/20 rounded-xl backdrop-blur-md shadow-inner border border-white/10">
-                 <DollarSign className="w-5 h-5 text-white" />
-               </div>
-               <span className="font-medium text-emerald-50 tracking-wide opacity-90">
-                 Total Income
-               </span>
-             </div>
-             <div className="text-3xl font-bold mb-1 tracking-tight">
-               ₹{totalIncome.toLocaleString()}
-             </div>
-             <p className="text-emerald-100 text-sm opacity-80">This Month</p>
-           </div>
-        </div>
-
-        {/* Card 3: Total Expenses (Clean White/Red) */}
-        <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm flex flex-col justify-between group hover:border-red-100 transition-colors">
-          <div>
-            <div className="flex justify-between items-start">
-              <div>
-                <p className="text-gray-500 font-medium text-sm">
-                  Total Spent
-                </p>
-                <h3 className="text-3xl font-bold text-gray-900 mt-1 flex items-baseline gap-1">
-                  ₹{totalExpenses.toLocaleString()}
-                </h3>
+            {/* Income & Expense Mini-Cards */}
+            <div className="grid grid-rows-2 gap-6">
+              <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex items-center justify-between group hover:border-emerald-100 transition-all">
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:scale-110 transition-transform">
+                    <DollarSign className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Monthly Income</p>
+                    <h3 className="text-2xl font-bold text-gray-900">₹{totalIncome.toLocaleString()}</h3>
+                  </div>
+                </div>
+                <div className="text-emerald-500 font-bold text-sm bg-emerald-50 px-2.5 py-1 rounded-lg">+4.2%</div>
               </div>
-              <div className="p-3 bg-red-50 text-red-600 rounded-2xl group-hover:bg-red-100 transition-colors">
-                <TrendingDown className="w-6 h-6" />
+
+              <div className="bg-white p-6 rounded-[2rem] border border-gray-100 shadow-sm flex items-center justify-between group hover:border-rose-100 transition-all">
+                <div className="flex items-center gap-4">
+                  <div className="p-4 bg-rose-50 text-rose-600 rounded-2xl group-hover:scale-110 transition-transform">
+                    <TrendingDown className="w-6 h-6" />
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-xs font-bold uppercase tracking-widest">Monthly Spent</p>
+                    <h3 className="text-2xl font-bold text-gray-900">₹{totalExpenses.toLocaleString()}</h3>
+                  </div>
+                </div>
+                <div className="text-rose-500 font-bold text-sm bg-rose-50 px-2.5 py-1 rounded-lg">High</div>
               </div>
             </div>
           </div>
 
-          <div className="mt-4 pt-4 border-t border-gray-100">
-             <div className="flex justify-between text-xs font-semibold mb-2">
-               <span className="text-gray-400">Budget Limit</span>
-               <span className="text-gray-900">₹{BUDGET_LIMIT.toLocaleString()}</span>
-             </div>
-             <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-               <div
-                 className={`h-full rounded-full transition-all duration-1000 ${
-                   isBudgetSafe ? 'bg-primary-500' : 'bg-red-500'
-                 }`}
-                 style={{ width: `${progressPercent}%` }}
-               />
-             </div>
+          {/* Visual Trends Section */}
+          <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm p-6 overflow-hidden">
+             <DashboardChart transactions={transactions} />
           </div>
-        </div>
-      </div>
 
-      {/* --- SECTION 3: RECENT TRANSACTIONS --- */}
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-lg shadow-gray-100/50 overflow-hidden">
-        {/* Header */}
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-          <h2 className="text-lg font-bold text-gray-900 tracking-tight">
-            Recent Transactions
-          </h2>
-          <button className="p-2 -mr-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-all">
-            <MoreVertical className="w-5 h-5" />
-          </button>
-        </div>
-
-        {/* Content State Handling */}
-        {loading ? (
-          <div className="p-12 text-center text-gray-400 animate-pulse">
-            Loading transaction history...
-          </div>
-        ) : transactions.length === 0 ? (
-          <div className="p-16 text-center">
-            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Wallet className="w-8 h-8 text-gray-300" />
+          {/* Activity Section */}
+          <div className="bg-white rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden">
+            <div className="p-6 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+              <h2 className="text-lg font-bold text-gray-900">Recent Transactions</h2>
+              <button className="text-sm font-bold text-primary-600 hover:text-primary-700">View All</button>
             </div>
-            <p className="text-gray-900 font-medium">No transactions yet</p>
-            <p className="text-gray-500 text-sm mt-1">
-              Add your first income or expense
-            </p>
-          </div>
-        ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              {/* Table Header */}
-              <thead className="bg-gray-50/50 border-b border-gray-100">
-                <tr className="text-left text-xs font-bold text-gray-400 uppercase tracking-wider">
-                  <th className="px-6 py-4 pl-8">Transaction</th>
-                  <th className="px-6 py-4 hidden md:table-cell">Category</th>
-                  <th className="px-6 py-4 hidden md:table-cell">Date</th>
-                  <th className="px-6 py-4 text-right pr-8">Amount</th>
-                </tr>
-              </thead>
-
-              {/* Table Body */}
-              <tbody className="divide-y divide-gray-50">
-                {transactions.map((transaction) => {
-                  const isIncome = transaction.type === 'income';
-                  
-                  return (
-                    <tr
-                      key={transaction._id || transaction.id}
-                      className="hover:bg-primary-50/30 transition-colors group cursor-default"
-                    >
-                      {/* Column 1: Icon + Name */}
-                      <td className="px-6 py-4 pl-8">
+            
+            <div className="overflow-x-auto">
+              {loading ? (
+                <div className="p-12 text-center text-gray-400">Loading...</div>
+              ) : (
+                <div className="divide-y divide-gray-50">
+                  {transactions.slice(0, 5).map((t) => {
+                    const isIncome = t.type === 'income';
+                    return (
+                      <div key={t._id || t.id} className="p-6 flex items-center justify-between hover:bg-gray-50/50 transition-colors group">
                         <div className="flex items-center gap-4">
-                          <div className={`w-12 h-12 rounded-2xl border shadow-sm flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-200 ${
-                            isIncome 
-                              ? 'bg-emerald-50 text-emerald-600 border-emerald-100' 
-                              : 'bg-white text-primary-600 border-gray-100'
+                          <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${
+                            isIncome ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'
                           }`}>
-                            {isIncome ? <TrendingUp className="w-6 h-6" /> : <TrendingDown className="w-6 h-6" />}
+                            {isIncome ? <TrendingUp className="w-5 h-5" /> : <TrendingDown className="w-5 h-5" />}
                           </div>
                           <div>
-                            <p className="font-bold text-gray-900 group-hover:text-primary-700 transition-colors">
-                              {transaction.description || 'Unknown'}
-                            </p>
-                            {/* Mobile Only Details */}
-                            <p className="text-xs text-gray-500 md:hidden">
-                              {transaction.category} •{' '}
-                              {new Date(transaction.date).toLocaleDateString()}
-                            </p>
+                            <p className="text-sm font-bold text-gray-900 line-clamp-1">{t.description}</p>
+                            <p className="text-xs text-gray-400 font-medium">{t.category} • {new Date(t.date).toLocaleDateString()}</p>
                           </div>
                         </div>
-                      </td>
-
-                      {/* Column 2: Category (Desktop) */}
-                      <td className="px-6 py-4 hidden md:table-cell">
-                        <span className={`px-3 py-1.5 rounded-full text-xs font-semibold border ${
-                          isIncome 
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-100' 
-                            : 'bg-gray-100 text-gray-600 border-transparent'
-                        }`}>
-                          {transaction.category}
+                        <span className={`text-base font-bold ${isIncome ? 'text-emerald-600' : 'text-gray-900'}`}>
+                          {isIncome ? '+' : '-'}₹{Number(t.amount).toLocaleString()}
                         </span>
-                      </td>
-
-                      {/* Column 3: Date (Desktop) */}
-                      <td className="px-6 py-4 hidden md:table-cell text-sm text-gray-500 font-medium">
-                        {new Date(transaction.date).toLocaleDateString('en-IN', {
-                          day: 'numeric',
-                          month: 'short',
-                          year: 'numeric',
-                        })}
-                      </td>
-
-                      {/* Column 4: Amount */}
-                      <td className="px-6 py-4 text-right pr-8">
-                        <span className={`font-bold text-base ${
-                          isIncome ? 'text-emerald-600' : 'text-gray-900'
-                        }`}>
-                          {isIncome ? '+' : '-'}₹{Number(transaction.amount).toLocaleString()}
-                        </span>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
-        )}
+        </div>
+
+        {/* RIGHT COLUMN: Insights & Details (30-35%) */}
+        <div className="lg:col-span-4 space-y-8">
+          
+          {/* Budget Widget */}
+          <div className="bg-white p-8 rounded-[2rem] border border-gray-100 shadow-sm">
+            <h4 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">Budget Health</h4>
+            <div className="relative flex flex-col items-center justify-center py-4">
+              <div className="relative w-40 h-40">
+                <svg className="w-full h-full transform -rotate-90">
+                  <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" className="text-gray-100" />
+                  <circle cx="80" cy="80" r="70" stroke="currentColor" strokeWidth="12" fill="transparent" 
+                    strokeDasharray={440} 
+                    strokeDashoffset={440 - (440 * progressPercent) / 100}
+                    strokeLinecap="round"
+                    className={`transition-all duration-1000 ${isBudgetSafe ? 'text-primary-600' : 'text-rose-500'}`} 
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-3xl font-black text-gray-900">{Math.round(progressPercent)}%</span>
+                  <span className="text-[10px] font-bold text-gray-400 uppercase">Limit Reached</span>
+                </div>
+              </div>
+            </div>
+            <div className="mt-8 space-y-4 pt-6 border-t border-gray-50">
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-gray-500 font-medium">Monthly Limit</span>
+                <span className="font-bold text-gray-900">₹{BUDGET_LIMIT.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between items-center text-sm">
+                <span className="text-gray-500 font-medium">Remaining</span>
+                <span className={`font-bold ${remainingBudget > 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
+                  ₹{Math.max(0, remainingBudget).toLocaleString()}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Breakdown Widget */}
+          <div className="bg-white p-8 rounded-[2.5rem] border border-gray-100 shadow-sm">
+             <CategoryBreakdown transactions={transactions} />
+          </div>
+
+          {/* Smart Insight Teaser */}
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-8 rounded-[2.5rem] text-white shadow-xl shadow-gray-200">
+            <div className="flex items-center gap-2 mb-4 text-primary-400">
+              <Sparkles className="w-5 h-5" />
+              <span className="text-xs font-bold uppercase tracking-widest">AI Financial Coach</span>
+            </div>
+            <p className="text-sm font-medium text-gray-300 leading-relaxed italic">
+              "You spent 15% more on Dining this week than usual. Consider packing lunch tomorrow to save approximately ₹400."
+            </p>
+            <button className="mt-6 w-full py-3 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-bold transition-all border border-white/10">
+              Get Detailed Analysis
+            </button>
+          </div>
+
+        </div>
       </div>
     </Layout>
   );

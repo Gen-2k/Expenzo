@@ -5,71 +5,69 @@ import {
   ArrowDownUp,
   Download,
   MoreHorizontal,
-  ShoppingBag,
-  Coffee,
-  Car,
-  Home,
+  TrendingDown,
+  TrendingUp,
 } from 'lucide-react';
 
 const Transactions = () => {
   // --- State ---
   const [searchTerm, setSearchTerm] = useState('');
 
-  // --- Mock Data (Replace with API call later) ---
+  // --- Mock Data (Updated with Types) ---
   const transactions = [
     {
       id: 1,
+      description: 'Monthly Salary',
+      category: 'Salary',
+      amount: 45000,
+      date: '2023-11-01',
+      type: 'income',
+      color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+    },
+    {
+      id: 2,
       description: 'Grocery Shopping',
       category: 'Food',
       amount: 450,
       date: '2023-10-25',
-      icon: ShoppingBag,
-      color: 'bg-orange-100 text-orange-600',
+      type: 'expense',
+      color: 'bg-rose-50 text-rose-600 border-rose-100',
     },
     {
-      id: 2,
+      id: 3,
       description: 'Uber Ride to Office',
       category: 'Transport',
       amount: 230,
       date: '2023-10-24',
-      icon: Car,
-      color: 'bg-blue-100 text-blue-600',
-    },
-    {
-      id: 3,
-      description: 'Morning Coffee',
-      category: 'Food',
-      amount: 120,
-      date: '2023-10-24',
-      icon: Coffee,
-      color: 'bg-orange-100 text-orange-600',
+      type: 'expense',
+      color: 'bg-rose-50 text-rose-600 border-rose-100',
     },
     {
       id: 4,
+      description: 'Freelance Project',
+      category: 'Work',
+      amount: 5000,
+      date: '2023-10-23',
+      type: 'income',
+      color: 'bg-emerald-50 text-emerald-600 border-emerald-100',
+    },
+    {
+      id: 5,
       description: 'Internet Bill',
       category: 'Bills',
       amount: 1299,
       date: '2023-10-22',
-      icon: Home,
-      color: 'bg-red-100 text-red-600',
-    },
-    {
-      id: 5,
-      description: 'Movie Night',
-      category: 'Entertainment',
-      amount: 800,
-      date: '2023-10-20',
-      icon: ShoppingBag,
-      color: 'bg-purple-100 text-purple-600',
+      type: 'expense',
+      color: 'bg-rose-50 text-rose-600 border-rose-100',
     },
     {
       id: 6,
-      description: 'Weekly Groceries',
-      category: 'Food',
-      amount: 1200,
-      date: '2023-10-18',
-      icon: ShoppingBag,
-      color: 'bg-orange-100 text-orange-600',
+      description: 'Netflix Subscription',
+      category: 'Entertainment',
+      amount: 800,
+      date: '2023-10-20',
+      type: 'expense',
+      color: 'bg-rose-50 text-rose-600 border-rose-100',
     },
   ];
 
@@ -160,15 +158,19 @@ const Transactions = () => {
                     <td className="px-6 py-4 pl-8">
                       <div className="flex items-center gap-4">
                         <div
-                          className={`w-12 h-12 rounded-2xl flex items-center justify-center ${item.color}`}
+                          className={`w-12 h-12 rounded-2xl flex items-center justify-center border ${item.color}`}
                         >
-                          <item.icon className="w-6 h-6" />
+                          {item.type === 'income' ? (
+                            <TrendingUp className="w-6 h-6" />
+                          ) : (
+                            <TrendingDown className="w-6 h-6" />
+                          )}
                         </div>
                         <div>
-                          <p className="font-bold text-gray-900">
+                          <p className="font-bold text-gray-900 leading-tight">
                             {item.description}
                           </p>
-                          <p className="text-xs text-gray-500 mt-0.5">
+                          <p className="text-xs text-gray-500 mt-1">
                             ID: #TRX-{1000 + item.id}
                           </p>
                         </div>
@@ -208,9 +210,11 @@ const Transactions = () => {
                     </td>
 
                     {/* Amount Column */}
-                    <td className="px-6 py-4 text-right">
-                      <span className="text-base font-bold text-gray-900">
-                        -₹{item.amount.toLocaleString()}
+                    <td className="px-6 py-4 text-right pr-8">
+                      <span className={`text-base font-bold ${
+                        item.type === 'income' ? 'text-emerald-600' : 'text-rose-600'
+                      }`}>
+                        {item.type === 'income' ? '+' : '-'}₹{item.amount.toLocaleString()}
                       </span>
                     </td>
 
