@@ -21,7 +21,7 @@ export default {
         },
         secondary: {
           50: '#ecfdf5', // Mint background (Success/Growth)
-          100: '#d1fae5', 
+          100: '#d1fae5',
           200: '#a7f3d0',
           300: '#6ee7b7',
           400: '#34d399',
@@ -38,8 +38,8 @@ export default {
           200: '#e2e8f0',
           300: '#cbd5e1',
           900: '#0f172a', // Dark mode surface
-        }
-      }
+        },
+      },
     },
   },
   plugins: [],

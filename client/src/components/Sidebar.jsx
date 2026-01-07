@@ -1,11 +1,19 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Receipt, PieChart, Settings, LogOut, Wallet, Sparkles, TrendingUp } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Receipt,
+  PieChart,
+  Settings,
+  LogOut,
+  Wallet,
+  Sparkles,
+  TrendingUp,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const Sidebar = () => {
   const { logout } = useAuth();
-  
+
   const navItems = [
     { icon: LayoutDashboard, label: 'Dashboard', path: '/' },
     { icon: Wallet, label: 'Accounts', path: '/accounts' },

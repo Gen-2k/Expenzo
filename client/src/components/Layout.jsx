@@ -15,13 +15,13 @@ const Layout = ({ children }) => {
       {/* Mobile Top Bar (Optional, for brand visibility) */}
       <div className="md:hidden flex items-center justify-between px-4 py-4 bg-white/80 backdrop-blur-sm sticky top-0 z-40">
         <div className="flex items-center gap-2">
-           <div className="p-1.5 bg-primary-600 rounded-lg">
-             <Wallet className="w-4 h-4 text-white" />
-           </div>
-           <span className="text-lg font-bold text-gray-900">Expenzo</span>
+          <div className="p-1.5 bg-primary-600 rounded-lg">
+            <Wallet className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-lg font-bold text-gray-900">Expenzo</span>
         </div>
         <button className="p-2 text-gray-600">
-           <Menu className="w-6 h-6" />
+          <Menu className="w-6 h-6" />
         </button>
       </div>
 
@@ -34,9 +34,7 @@ const Layout = ({ children }) => {
       <MobileNav onAddClick={() => setIsModalOpen(true)} />
 
       {/* Add Expense Modal */}
-      {isModalOpen && (
-        <AddExpenseModal onClose={() => setIsModalOpen(false)} />
-      )}
+      {isModalOpen && <AddExpenseModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };

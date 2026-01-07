@@ -1,6 +1,11 @@
-import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Wallet, Sparkles, Settings, Plus } from 'lucide-react';
+import {
+  LayoutDashboard,
+  Wallet,
+  Sparkles,
+  Settings,
+  Plus,
+} from 'lucide-react';
 
 const MobileNav = ({ onAddClick }) => {
   const navItems = [
@@ -12,26 +17,28 @@ const MobileNav = ({ onAddClick }) => {
 
   return (
     <div className="md:hidden fixed bottom-6 left-4 right-4 h-16 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-white/20 z-50 flex items-center justify-between px-6">
-       {/* Left Items */}
-       <div className="flex gap-1">
+      {/* Left Items */}
+      <div className="flex gap-1">
         {navItems.slice(0, 2).map((item) => (
-            <NavLink
+          <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-                `flex flex-col items-center justify-center w-12 h-full transition-colors ${
-                isActive ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600'
-                }`
+              `flex flex-col items-center justify-center w-12 h-full transition-colors ${
+                isActive
+                  ? 'text-primary-600'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`
             }
-            >
+          >
             <item.icon className="w-6 h-6" />
-            </NavLink>
+          </NavLink>
         ))}
-       </div>
+      </div>
 
       {/* Floating Add Button */}
       <div className="relative -top-6">
-        <button 
+        <button
           onClick={onAddClick}
           className="flex items-center justify-center w-14 h-14 bg-primary-600 rounded-full shadow-lg shadow-primary-600/30 text-white hover:scale-105 active:scale-95 transition-all"
         >
@@ -39,22 +46,24 @@ const MobileNav = ({ onAddClick }) => {
         </button>
       </div>
 
-       {/* Right Items */}
-       <div className="flex gap-1">
+      {/* Right Items */}
+      <div className="flex gap-1">
         {navItems.slice(2, 4).map((item) => (
-            <NavLink
+          <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-                `flex flex-col items-center justify-center w-12 h-full transition-colors ${
-                isActive ? 'text-primary-600' : 'text-gray-400 hover:text-gray-600'
-                }`
+              `flex flex-col items-center justify-center w-12 h-full transition-colors ${
+                isActive
+                  ? 'text-primary-600'
+                  : 'text-gray-400 hover:text-gray-600'
+              }`
             }
-            >
+          >
             <item.icon className="w-6 h-6" />
-            </NavLink>
+          </NavLink>
         ))}
-       </div>
+      </div>
     </div>
   );
 };

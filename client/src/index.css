@@ -35,7 +35,7 @@
     @apply bg-white/80 backdrop-blur-xl border border-white/40 shadow-xl shadow-indigo-100/20;
   }
   .glass-dark {
-     @apply bg-gray-900/80 backdrop-blur-xl border border-white/5 shadow-xl;
+    @apply bg-gray-900/80 backdrop-blur-xl border border-white/5 shadow-xl;
   }
   .glass-card {
     @apply bg-white/60 backdrop-blur-md border border-white/60 shadow-lg shadow-gray-200/50 transition-all duration-300;
@@ -43,7 +43,7 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-indigo-600;
   }
-  
+
   /* Scrollbar Hiding */
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
