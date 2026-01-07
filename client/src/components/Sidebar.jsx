@@ -8,10 +8,11 @@ import {
   Wallet,
   Sparkles,
   TrendingUp,
+  Plus, 
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
-const Sidebar = () => {
+const Sidebar = ({ onAddClick }) => {
   const { logout } = useAuth();
 
   const navItems = [
@@ -34,6 +35,17 @@ const Sidebar = () => {
         <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
           Expenzo
         </span>
+      </div>
+
+      {/* Add Button */}
+      <div className="px-6 mb-2">
+        <button 
+          onClick={onAddClick}
+          className="w-full py-3 px-4 bg-primary-600 hover:bg-primary-700 text-white rounded-xl font-bold shadow-lg shadow-primary-600/20 transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+        >
+          <Plus className="w-5 h-5" />
+          <span>New Expense</span>
+        </button>
       </div>
 
       {/* Navigation */}

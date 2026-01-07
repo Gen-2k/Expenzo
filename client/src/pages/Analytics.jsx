@@ -1,19 +1,5 @@
-import React from 'react';
 import Layout from '../components/Layout';
 import {
-  PieChart,
-  TrendingUp,
-  DollarSign,
-  Calendar,
-  ArrowUpRight,
-  ArrowDownRight,
-  Layers,
-} from 'lucide-react';
-
-import React from 'react';
-import Layout from '../components/Layout';
-import {
-  PieChart,
   TrendingUp,
   DollarSign,
   Calendar,

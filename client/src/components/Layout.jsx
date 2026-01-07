@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import MobileNav from './MobileNav';
 import { Menu, Wallet } from 'lucide-react';
-import AddExpenseModal from './AddExpenseModal'; // We'll create this next
+import AddTransactionModal from './AddTransactionModal'; // Refactored name
 
 const Layout = ({ children }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-50/50">
       {/* Desktop Sidebar */}
-      <Sidebar />
+      <Sidebar onAddClick={() => setIsModalOpen(true)} />
 
       {/* Mobile Top Bar (Optional, for brand visibility) */}
       <div className="md:hidden flex items-center justify-between px-4 py-4 bg-white/80 backdrop-blur-sm sticky top-0 z-40">
@@ -20,9 +20,8 @@ const Layout = ({ children }) => {
           </div>
           <span className="text-lg font-bold text-gray-900">Expenzo</span>
         </div>
-        <button className="p-2 text-gray-600">
-          <Menu className="w-6 h-6" />
-        </button>
+        {/* Placeholder for layout balance if needed, or empty */}
+        <div className="w-6" /> 
       </div>
 
       {/* Main Content Area */}
@@ -33,8 +32,8 @@ const Layout = ({ children }) => {
       {/* Mobile Bottom Nav */}
       <MobileNav onAddClick={() => setIsModalOpen(true)} />
 
-      {/* Add Expense Modal */}
-      {isModalOpen && <AddExpenseModal onClose={() => setIsModalOpen(false)} />}
+      {/* Add Transaction Modal */}
+      {isModalOpen && <AddTransactionModal onClose={() => setIsModalOpen(false)} />}
     </div>
   );
 };
